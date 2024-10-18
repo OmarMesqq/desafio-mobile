@@ -26,7 +26,7 @@ data class MovieModel(
     val urlKey: String? = null,
     val isPlaying: Boolean? = null,
     val countIsPlaying: Int? = null,
-    val premiereDate: String? = null,
+    val premiereDate: PremiereDate? = null,
     val creationDate: String? = null,
     val city: String? = null,
     val siteURL: String? = null,
@@ -39,7 +39,7 @@ data class MovieModel(
     val tags: List<String> = emptyList(),
     val trailers: List<TrailerModel> = emptyList(),
     val partnershipType: String? = null,
-    val rottenTomatoe: String? = null
+    val rottenTomatoe: Any? = null
 )
 
 
@@ -53,4 +53,13 @@ data class TrailerModel(
     val type: String,
     val url: String,
     val embeddedUrl: String
+)
+
+data class PremiereDate(
+    val localDate: String,
+    val isToday: Boolean,
+    val dayOfWeek: String,
+    val dayAndMonth: String,
+    val hour: String,
+    val year: String
 )
