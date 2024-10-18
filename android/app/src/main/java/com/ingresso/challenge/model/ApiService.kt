@@ -1,12 +1,11 @@
 package com.ingresso.challenge.model
 
-import retrofit2.HttpException
+import android.util.Log
 import retrofit2.Response
 import retrofit2.http.GET
 
-private const val apiEndpoint = "https://api-content.ingresso.com/v0/events/coming-soon/partnership/desafio"
 interface Api {
-    @GET(apiEndpoint)
+    @GET("/events/coming-soon/partnership/desafio")
     suspend fun getMovies(): Response<ApiResponseModel>
 }
 
@@ -17,6 +16,7 @@ class ApiService(private val api: Api) {
             val response = api.getMovies()
             return response.body()?.items
         } catch(e: Exception) {
+            Log.e("ApiService.getMovies", e.toString())
             return null
         }
     }

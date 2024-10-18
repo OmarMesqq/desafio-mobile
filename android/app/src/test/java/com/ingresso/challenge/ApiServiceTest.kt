@@ -10,13 +10,11 @@ import okhttp3.ResponseBody
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
-import org.junit.Test
 import org.junit.Before
+import org.junit.Test
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.`when`
 import retrofit2.Response
-import java.io.IOException
-import java.lang.RuntimeException
 
 class ApiServiceTest {
     private lateinit var mockApi: Api
