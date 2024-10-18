@@ -15,14 +15,7 @@ class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val retrofit = RetrofitClient.getClient()
-        val api = retrofit.create(Api::class.java)
-        val apiService = ApiService(api)
 
-        lifecycleScope.launch {
-            val res = apiService.getMovies()
-            println("apiResponse is: ${res}")
-        }
 
         setContentView(R.layout.activity_main)
     }

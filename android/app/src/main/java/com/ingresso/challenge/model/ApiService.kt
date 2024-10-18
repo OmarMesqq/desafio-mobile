@@ -1,6 +1,7 @@
 package com.ingresso.challenge.model
 
 import android.util.Log
+import com.ingresso.challenge.RetrofitClient
 import retrofit2.Response
 import retrofit2.http.GET
 
@@ -9,7 +10,9 @@ interface Api {
     suspend fun getMovies(): Response<ApiResponseModel>
 }
 
-class ApiService(private val api: Api) {
+object ApiService {
+    private val retrofit = RetrofitClient.getClient()
+    private val api: Api = retrofit.create(Api::class.java)
 
     suspend fun getMovies(): List<MovieModel>? {
         try {
