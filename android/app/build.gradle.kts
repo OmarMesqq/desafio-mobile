@@ -44,7 +44,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.converter.gson)
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
-    implementation(libs.retrofit2.retrofit)
 }
