@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.retrofit2.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.androidx.recyclerview)
+    implementation(libs.picasso)
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
 }
