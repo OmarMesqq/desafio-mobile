@@ -42,8 +42,6 @@ data class MovieModel(
     val rottenTomatoe: Any? = null
 )
 
-
-
 data class ImageModel(
     val url: String,
     val type: String
