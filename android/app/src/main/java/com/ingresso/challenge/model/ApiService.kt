@@ -12,12 +12,12 @@ interface Api {
 
 class ApiService(private val api: Api) {
 
-    suspend fun getMovies(): List<MovieModel> {
-        val response = api.getMovies()
-        return if (response.isSuccessful) {
-            response.body()?.items ?: emptyList()
-        } else {
-            emptyList()
+    suspend fun getMovies(): List<MovieModel>? {
+        try {
+            val response = api.getMovies()
+            return response.body()?.items
+        } catch(e: Exception) {
+            return null
         }
     }
 }
