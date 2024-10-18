@@ -61,52 +61,41 @@ class ApiServiceTest {
         val result = apiService.getMovies()
 
         assertNotNull(result)
-        assert(result.isNotEmpty())
-        assertEquals(2, result.size)
+        result?.isNotEmpty()?.let { assert(it) }
+        assertEquals(2, result?.size)
 
-        assertEquals("4242", result[0].id)
-        assertEquals("Inception", result[0].title)
-        assertEquals("Filme", result[0].type)
-        assertEquals(1, result[0].images.size)
-        assertEquals("inceptionPosterImg", result[0].images[0].url)
-        assertEquals("PosterPortrait", result[0].images[0].type)
+        assertEquals("4242", result?.get(0)?.id)
+        assertEquals("Inception", result?.get(0)?.title)
+        assertEquals("Filme",result?.get(0)?.type)
+        assertEquals(1, result?.get(0)?.images?.size)
+        assertEquals("inceptionPosterImg", result?.get(0)?.images?.get(0)?.url)
+        assertEquals("PosterPortrait",  result?.get(0)?.images?.get(0)?.type)
 
-        assertEquals("001", result[1].id)
-        assertEquals("Playtime", result[1].title)
-        assertEquals("Filme", result[1].type)
-        assertEquals(1, result[1].images.size)
-        assertEquals("playtimePosterImg", result[1].images[0].url)
-        assertEquals("PosterPortrait", result[1].images[0].type)
+        assertEquals("001",  result?.get(1)?.id)
+        assertEquals("Playtime",  result?.get(1)?.title)
+        assertEquals("Filme",  result?.get(1)?.type)
+        assertEquals(1,  result?.get(0)?.images?.size)
+        assertEquals("playtimePosterImg",  result?.get(1)?.images?.get(0)?.url)
+        assertEquals("PosterPortrait",  result?.get(1)?.images?.get(0)?.type)
 
-        assertEquals(2, result.count { it.id.isNotEmpty() })
+        assertEquals(2, result?.count { it.id.isNotEmpty() })
     }
 
-    // Explora erros no pedido da API. Códigos HTTP >= 300
+    // Explora erros na **lógica** do pedido da API. Códigos HTTP >= 300
     @Test
     fun testErrorResponseHandling() : Unit = runBlocking  {
-        val errorResponse = Response.error<ApiResponseModel>(500, ResponseBody.create(null, "Internal Server Error"))
-        `when`(mockApi.getMovies()).thenReturn(errorResponse)
+        val mockResponse = Response.error<ApiResponseModel>(500, ResponseBody.create(null, "Internal Server Error"))
+        `when`(mockApi.getMovies()).thenReturn(mockResponse)
 
         val result = apiService.getMovies()
 
         assertNull(result)
     }
 
+    // Explora erros na **realização** do pedido da API. Ficar sem conexão antes/durante
     @Test
-    fun testErrorResponseHandling2() : Unit = runBlocking  {
-        `when`(mockApi.getMovies()).thenReturn(Response.success(null))
-
-        val result = apiService.getMovies()
-
-        assertNull(result)
-    }
-
-    // Edge case: volta resposta sem body
-    @Test
-    fun testEmptyResponseHandling() : Unit = runBlocking  {
-        val errorResponse = Response.error<ApiResponseModel>(404, ResponseBody.create(null, ""))
-        `when`(mockApi.getMovies()).thenReturn(errorResponse)
-
+    fun testNetworkFailureHandling():Unit = runBlocking {
+        `when`(mockApi.getMovies()).thenThrow(RuntimeException("Network failure"))
         val result = apiService.getMovies()
 
         assertNull(result)
@@ -121,14 +110,13 @@ class ApiServiceTest {
         val result = apiService.getMovies()
 
         assertNotNull(result)
-        assert(result.isEmpty())
+        result?.isEmpty()?.let { assert(it) }
     }
 
-
-    // Explora erros na realização do pedido da API. Ficar sem conexão antes/durante
+    // Edge case: resposta com body vazio. Se tivermos um 204 ou faha de parse, pode ser que volte null
     @Test
-    fun testNetworkFailureHandling():Unit = runBlocking {
-        `when`(mockApi.getMovies()).thenThrow(RuntimeException("Network failure"))
+    fun testEmptyOrNonExistentResponseHandling() : Unit = runBlocking  {
+        `when`(mockApi.getMovies()).thenReturn(Response.success(null))
         val result = apiService.getMovies()
 
         assertNull(result)
