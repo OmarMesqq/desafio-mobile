@@ -45,5 +45,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.appcompat)
     testImplementation(libs.junit)
+    testImplementation(libs.mockito.core)
     implementation(libs.retrofit2.retrofit)
 }
