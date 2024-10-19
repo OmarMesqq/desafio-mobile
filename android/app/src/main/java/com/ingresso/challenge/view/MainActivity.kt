@@ -6,8 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ingresso.challenge.R
+import com.ingresso.challenge.RetrofitClient
+import com.ingresso.challenge.model.Api
+import com.ingresso.challenge.model.ApiService
 import com.ingresso.challenge.model.MovieRepository
 import com.ingresso.challenge.viewmodel.MovieViewModel
+import com.ingresso.challenge.viewmodel.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,15 +22,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val repository = MovieRepository()
-        // Make sure to use the correct ViewModelProvider constructor
+        // Create the Retrofit client and API instance
+        val retrofit = RetrofitClient.getClient()
+        val api: Api = retrofit.create(Api::class.java)
+
+        // Create ApiService and MovieRepository
+        val apiService = ApiService(api)
+        val repository = MovieRepository(apiService)
+
         viewModel = ViewModelProvider(
             this,
-            com.ingresso.challenge.viewmodel.ViewModelFactory(repository)
+            ViewModelFactory(repository)
         )[MovieViewModel::class.java]
 
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(this, 2) // Adjust the number of columns
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
 
         viewModel.movies.observe(this, { movies ->
             adapter = MovieAdapter(movies ?: emptyList())

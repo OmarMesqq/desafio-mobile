@@ -10,16 +10,13 @@ interface Api {
     suspend fun getMovies(): Response<ApiResponseModel>
 }
 
-object ApiService {
-    private val retrofit = RetrofitClient.getClient()
-    private val api: Api = retrofit.create(Api::class.java)
-
+class ApiService(private val api: Api) {
     suspend fun getMovies(): List<MovieModel>? {
         try {
             val response = api.getMovies()
             return response.body()?.items
-        } catch(e: Exception) {
-            Log.e("ApiService.getMovies", e.toString())
+        } catch (e: Exception) {
+//            Log.e("ApiService.getMovies", e.toString())
             return null
         }
     }

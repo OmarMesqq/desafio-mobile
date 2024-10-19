@@ -1,7 +1,7 @@
 package com.ingresso.challenge.model
 
-class MovieRepository {
+class MovieRepository(private val apiService: ApiService) {
     suspend fun getMovies(): List<MovieModel>? {
-        return ApiService.getMovies()
+        return apiService.getMovies()
     }
 }
