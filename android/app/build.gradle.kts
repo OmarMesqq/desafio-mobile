@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.androidx.recyclerview)
     implementation(libs.picasso)
+    implementation(libs.material)
     testImplementation(libs.junit)
     testImplementation(libs.mockito.core)
 }
