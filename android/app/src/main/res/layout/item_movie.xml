@@ -21,4 +21,12 @@
         android:gravity="start"
         android:textColor="@color/white"/>
 
+    <TextView
+        android:id="@+id/premiere_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
 </LinearLayout>

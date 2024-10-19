@@ -17,6 +17,7 @@ class MovieAdapter(private val movies: List<MovieModel>) : RecyclerView.Adapter<
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.movie_title)
         val poster: ImageView = itemView.findViewById(R.id.movie_poster)
+        val premiereDate: TextView = itemView.findViewById(R.id.premiere_date)
     }
 
     // Infla o item_movie.xml para cada filme e retorna um Holder para fácil acesso aos campos do filme
@@ -38,6 +39,14 @@ class MovieAdapter(private val movies: List<MovieModel>) : RecyclerView.Adapter<
                 holder.poster.setImageResource(R.drawable.ic_cinema_roll)
             }
         } ?: holder.poster.setImageResource(R.drawable.ic_cinema_roll)
+
+        movie.premiereDate?.let { date ->
+            holder.premiereDate.text = buildString {
+                append(date.dayAndMonth)
+                append("/")
+                append(date.year.takeLast(2))
+            }
+        }
     }
 
 
