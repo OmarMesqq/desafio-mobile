@@ -1,7 +1,5 @@
 package com.ingresso.challenge.model
 
-import android.util.Log
-import com.ingresso.challenge.RetrofitClient
 import retrofit2.Response
 import retrofit2.http.GET
 
