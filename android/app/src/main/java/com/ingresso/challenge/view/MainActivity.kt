@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             recyclerView.adapter = adapter
         })
 
-        // Bate na API apenas uma vez para pegar o JSON com filmes
+        // Bate na API pegar o JSON com filmes
         progressBar.visibility = View.VISIBLE
         viewModel.fetchMovies()
     }

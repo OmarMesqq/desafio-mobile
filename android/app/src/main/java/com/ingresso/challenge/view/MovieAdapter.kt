@@ -27,7 +27,7 @@ class MovieAdapter(private val movies: List<MovieModel>) : RecyclerView.Adapter<
     }
 
     // Faz binding dos dados da API às views contidas no MovieViewHolder
-    // Em essência, seta título e poster com o que vem da API
+    // Em essência, seta título, poster e data de lançamento vindos da API
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         val movie = movies[position]
         holder.title.text = movie.title
