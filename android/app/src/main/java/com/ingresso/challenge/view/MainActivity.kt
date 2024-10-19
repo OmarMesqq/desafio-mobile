@@ -22,28 +22,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Create the Retrofit client and API instance
         val retrofit = RetrofitClient.getClient()
         val api: Api = retrofit.create(Api::class.java)
-
-        // Create ApiService and MovieRepository
         val apiService = ApiService(api)
         val repository = MovieRepository(apiService)
 
+        // Inicializa nossa ViewModel com provider do Android
         viewModel = ViewModelProvider(
             this,
             ViewModelFactory(repository)
         )[MovieViewModel::class.java]
 
+        // Acha a única RecyclerView na UI e configura seu layout manager
+        // para permitir 3 itens por linha
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        recyclerView.layoutManager = GridLayoutManager(this, 2)
+        recyclerView.layoutManager = GridLayoutManager(this, 3)
 
+        // Começa a observar po LiveData "movies". Quando dados são atualizados,
+        // atualiza-se o Adapter e este é setado na RecyclerView
         viewModel.movies.observe(this, { movies ->
             adapter = MovieAdapter(movies ?: emptyList())
             recyclerView.adapter = adapter
         })
 
-        // Fetch movies
+        // Bate na API apenas uma vez para pegar o JSON com filmes
         viewModel.fetchMovies()
     }
 }
