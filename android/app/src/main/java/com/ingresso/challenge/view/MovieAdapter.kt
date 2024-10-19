@@ -31,11 +31,13 @@ class MovieAdapter(private val movies: List<MovieModel>) : RecyclerView.Adapter<
         val movie = movies[position]
         holder.title.text = movie.title
 
-        if (movie.images.isNotEmpty()) {
-            Picasso.get().load(movie.images[0].url).into(holder.poster)
-        } else {
-            //TODO: placeholder image
-        }
+        movie.images.firstOrNull()?.url?.let { url ->
+            if (url.isNotBlank()) {
+                Picasso.get().load(url).into(holder.poster)
+            } else {
+                holder.poster.setImageResource(R.drawable.ic_cinema_roll)
+            }
+        } ?: holder.poster.setImageResource(R.drawable.ic_cinema_roll)
     }
 
 
