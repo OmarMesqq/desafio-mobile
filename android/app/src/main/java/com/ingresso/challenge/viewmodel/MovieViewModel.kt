@@ -12,11 +12,15 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
     private val _movies = MutableLiveData<List<MovieModel>>()
     val movies: LiveData<List<MovieModel>> get() = _movies
+    private var isDataFetched = false
 
     fun fetchMovies() {
+        if (isDataFetched) return
+
         viewModelScope.launch {
             val movieList = repository.getMovies()
             _movies.postValue(movieList)
+            isDataFetched = true
         }
     }
 }
