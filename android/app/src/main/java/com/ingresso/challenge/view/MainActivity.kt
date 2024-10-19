@@ -1,6 +1,8 @@
 package com.ingresso.challenge.view
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,11 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MovieViewModel
     private lateinit var adapter: MovieAdapter
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        progressBar = findViewById(R.id.progress_bar)
         val retrofit = RetrofitClient.getClient()
         val api: Api = retrofit.create(Api::class.java)
         val apiService = ApiService(api)
@@ -38,14 +42,16 @@ class MainActivity : AppCompatActivity() {
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
         recyclerView.layoutManager = GridLayoutManager(this, 3)
 
-        // Começa a observar po LiveData "movies". Quando dados são atualizados,
+        // Começa a observar o LiveData "movies". Quando dados são atualizados,
         // atualiza-se o Adapter e este é setado na RecyclerView
         viewModel.movies.observe(this, { movies ->
+            progressBar.visibility = View.GONE
             adapter = MovieAdapter(movies ?: emptyList())
             recyclerView.adapter = adapter
         })
 
         // Bate na API apenas uma vez para pegar o JSON com filmes
+        progressBar.visibility = View.VISIBLE
         viewModel.fetchMovies()
     }
 }
