@@ -1,11 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/page_1"
+        android:id="@+id/nav_movies"
         android:enabled="true"
         android:icon="@drawable/ic_movies"
         android:title="Filmes"/>
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/nav_about"
         android:enabled="true"
         android:icon="@drawable/ic_info"
         android:title="Sobre"/>

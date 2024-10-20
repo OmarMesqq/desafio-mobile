@@ -1,5 +1,6 @@
 package com.ingresso.challenge.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.ingresso.challenge.R
 import com.ingresso.challenge.RetrofitClient
 import com.ingresso.challenge.model.Api
@@ -20,10 +22,26 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MovieViewModel
     private lateinit var adapter: MovieAdapter
     private lateinit var progressBar: ProgressBar
+    private lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Acha bottom nav bar e seta listener de navegação
+        bottomNavigationView = findViewById(R.id.bottom_navigation)
+        bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_movies -> {
+                    true
+                }
+                R.id.nav_about -> {
+                    startActivity(Intent(this, AboutActivity::class.java))
+                    true
+                }
+                else -> false
+            }
+        }
 
         progressBar = findViewById(R.id.progress_bar)
         val retrofit = RetrofitClient.getClient()
