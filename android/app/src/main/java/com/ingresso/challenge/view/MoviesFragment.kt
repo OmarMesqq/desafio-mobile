@@ -33,11 +33,11 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         val repository = MovieRepository(apiService)
         viewModel = ViewModelProvider(this, ViewModelFactory(repository))[MovieViewModel::class.java]
 
-        viewModel.movies.observe(viewLifecycleOwner, { movies ->
+        viewModel.movies.observe(viewLifecycleOwner) { movies ->
             progressBar.visibility = View.GONE
             adapter = MovieAdapter(movies ?: emptyList())
             recyclerView.adapter = adapter
-        })
+        }
 
         viewModel.fetchMovies()
         progressBar.visibility = View.VISIBLE
