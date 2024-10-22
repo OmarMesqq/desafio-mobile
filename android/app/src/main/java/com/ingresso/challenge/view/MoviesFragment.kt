@@ -31,12 +31,14 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
         val api = retrofit.create(Api::class.java)
         val apiService = ApiService(api)
         val repository = MovieRepository(apiService)
-        viewModel = ViewModelProvider(this, ViewModelFactory(repository))[MovieViewModel::class.java]
+        viewModel = ViewModelProvider(requireActivity(), ViewModelFactory(repository))[MovieViewModel::class.java]
 
         viewModel.movies.observe(viewLifecycleOwner) { movies ->
-            progressBar.visibility = View.GONE
-            adapter = MovieAdapter(movies ?: emptyList())
-            recyclerView.adapter = adapter
+            if (movies != null) {
+                progressBar.visibility = View.GONE
+                adapter = MovieAdapter(movies)
+                recyclerView.adapter = adapter
+            }
         }
 
         viewModel.fetchMovies()
