@@ -11,8 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
-
         // carrega fragmento de filmes por padrão
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -20,6 +18,8 @@ class MainActivity : AppCompatActivity() {
                 .commit()
         }
 
+        // acha bottom nav bar e configura listener
+        val bottomNavigationView: BottomNavigationView = findViewById(R.id.bottom_navigation)
         bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_movies -> {

@@ -23,12 +23,10 @@ class MoviesFragment : Fragment(R.layout.fragment_movies) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize RecyclerView and ProgressBar
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         progressBar = view.findViewById(R.id.progress_bar)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
 
-        // Setup ViewModel
         val retrofit = RetrofitClient.getClient()
         val api = retrofit.create(Api::class.java)
         val apiService = ApiService(api)
